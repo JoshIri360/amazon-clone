@@ -1,23 +1,12 @@
+"use client";
 import React from "react";
-
-type Props = {
-  count: number;
-  setCount: (count: number) => void;
-};
+import OtherComponent from "./OtherComponent";
+import { useCounterStore } from "@/utils/store";
 
 const LearnState = () => {
-  const [count, setCount] = React.useState(0);
+  const count = useCounterStore((state) => state.count);
 
-  return <OtherComponent count={count} setCount={setCount} />;
-};
-
-const OtherComponent = ({ count, setCount }: Props) => {
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
+  return <OtherComponent count={count} />;
 };
 
 export default LearnState;
