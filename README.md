@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Amazon Clone - Next.js
+
+This project is an Amazon clone built with [Next.js](https://nextjs.org/), a popular React framework for building web applications. The project is based on the tutorial by Sonny Sangha on his YouTube channel.
+
+## Features
+
+This Amazon clone includes several key features:
+
+- User authentication with NextAuth, including log in and log out functionality.
+- Add to basket functionality, similar to Amazon's shopping cart.
+- A basket page where users can add or remove products and change their quantities.
+- A complete Stripe Payments checkout flow for processing orders.
+- A Cloud Firestore database for storing order details.
+- A beautiful, responsive design built with Tailwind CSS.
+- Deployment on Vercel.
 
 ## Getting Started
 
-First, run the development server:
+To get started with this project, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone the repository to your local machine.
+2. Install the dependencies with `npm install`.
+3. Start the development server with `npm run dev`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The page auto-updates as you edit the file.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) for more information.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.# Amazon Clone - Next.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is an Amazon clone built with [Next.js](https://nextjs.org/), a popular React framework for building web applications. The project is based on the tutorial by Sonny Sangha on his YouTube channel.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Features
 
-## Deploy on Vercel
+This Amazon clone includes several key features:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- User authentication with NextAuth, including log in and log out functionality.
+- Add to basket functionality, similar to Amazon's shopping cart.
+- A basket page where users can add or remove products and change their quantities.
+- A complete Stripe Payments checkout flow for processing orders.
+- A Cloud Firestore database for storing order details.
+- A beautiful, responsive design built with Tailwind CSS.
+- Deployment on Vercel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Getting Started
+
+To get started with this project, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Install the dependencies with `npm install`.
+3. Start the development server with `npm run dev`.
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The page auto-updates as you edit the file.
+
+## Contributing
+
+Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) for more information.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
