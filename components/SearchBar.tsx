@@ -3,7 +3,7 @@ import React from "react";
 
 const SearchBar = () => {
   return (
-    <div className="rounded-md flex overflow-hidden h-8 w-full">
+    <div className="hidden rounded-md sm:flex overflow-hidden h-8 w-full">
       <input
         type="text"
         className="h-full w-full outline-none p-2"

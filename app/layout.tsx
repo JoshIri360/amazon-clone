@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Nav from "@/components/Nav";
+import Nav2 from "@/components/Nav2";
 
 const montserrat = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={montserrat.className}>
         <main className="app">
           <Nav />
+          <Nav2 />
           {children}
         </main>
       </body>

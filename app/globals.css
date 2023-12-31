@@ -4,7 +4,7 @@
 
 @layer components {
   .responsive-width {
-    @apply w-[min(90%,1100px)] border border-pink-300;
+    @apply w-[min(95%,1300px)];
   };
   .flex-center {
     @apply flex justify-center items-center;
