@@ -21,7 +21,7 @@ export default function Home() {
 }
 
 export const getProducts = async () => {
-  const products = await fetch("https://fakestoreapi.com/products").then(
+  const products = await fetch("https://fakestoreapi.com/products?limit=4").then(
     (res) => res.json()
   );
 

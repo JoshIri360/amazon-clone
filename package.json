@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tabler/icons-react": "^2.45.0",
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "lucide-react": "^0.303.0",

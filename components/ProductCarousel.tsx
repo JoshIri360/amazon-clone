@@ -20,36 +20,56 @@ const ProductCarousel = () => {
           <Image
             alt="Carousel"
             src="/carousel/carousel1.jpg"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill={true}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
         </div>
         <div className="h-[80vh] bg-black">
           <Image
             alt="Carousel"
             src="/carousel/carousel2.jpg"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill={true}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
         </div>
         <div className="h-[80vh] bg-black">
           <Image
             alt="Carousel"
             src="/carousel/carousel3.jpg"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill={true}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
         </div>
         <div className="h-[80vh] bg-black">
           <Image
             alt="Carousel"
             src="/carousel/carousel4.jpg"
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
+            fill={true}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
         </div>
       </Carousel>
