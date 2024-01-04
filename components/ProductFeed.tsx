@@ -11,6 +11,10 @@ type productProps = {
   description: string;
   category: string;
   image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
 };
 
 async function ProductFeed() {
@@ -18,7 +22,7 @@ async function ProductFeed() {
 
   return (
     <div>
-      <div className="grid -mt-64 bg-white grid-cols-4 gap-10 w-full px-5">
+      <div className="grid -mt-[40vh] grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 w-full px-2 md:px-5">
         {products.map(
           ({
             id,
@@ -26,12 +30,14 @@ async function ProductFeed() {
             price,
             description,
             category,
+            rating,
             image,
           }: productProps) => {
-            const rating = Math.floor(Math.random() * 5) + 1;
-
             return (
-              <div key={id} className="flex flex-col justify-between gap-4 p-4 z-20 bg-white">
+              <div
+                key={id}
+                className="flex flex-col relative justify-between gap-4 p-4 z-20 bg-white transition-all cursor-pointer"
+              >
                 <div>
                   <div className="w-full min-h-64 h-fit flex-center">
                     <Image
@@ -51,13 +57,30 @@ async function ProductFeed() {
                   <h3 className="text-base font-bold mb-1 text-ellipsis line-clamp-2">
                     {title}
                   </h3>
-                  <div className="flex gap-2">
-                    {Array(rating).fill(
-                      <IconStarFilled className="text-yellow-400 my-2" />
+                  <div className="gap-2 flex items-center">
+                    {Array(Math.floor(rating.rate)).fill(
+                      <IconStarFilled
+                        width={20}
+                        className="text-yellow-400 my-2"
+                      />
                     )}
+                    {Array(5 - Math.floor(rating.rate)).fill(
+                      <IconStarFilled
+                        width={20}
+                        className="text-gray-200 my-2"
+                      />
+                    )}
+                    <p>
+                      <span className="m-0 md:ml-3 text-blue-300 cursor-pointer">
+                        {rating.count}
+                      </span>
+                    </p>
                   </div>
                   <p className="text-ellipsis line-clamp-2">{description}</p>
                   <p className="font-semibold mt-2">£{price}</p>
+                  <p className="absolute right-3 top-3 capitalize text-sm text-gray-300">
+                    {category}
+                  </p>
                 </div>
 
                 <button className="bg-gradient-to-t from-yellow-400 to-yellow-200 w-full px-4 py-2 mt-1">
