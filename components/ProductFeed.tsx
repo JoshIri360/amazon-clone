@@ -78,7 +78,7 @@ async function ProductFeed() {
                   </div>
                   <p className="text-ellipsis line-clamp-2">{description}</p>
                   <p className="font-semibold mt-2">£{price}</p>
-                  <p className="absolute right-3 top-3 capitalize text-sm text-gray-300">
+                  <p className="absolute right-2 top-2 capitalize text-sm text-gray-400">
                     {category}
                   </p>
                 </div>
