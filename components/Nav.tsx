@@ -1,8 +1,9 @@
+"use client";
 import Image from "next/image";
 import SearchBar from "./SearchBar";
 import NavItem from "./NavItem";
-import { ShoppingCart } from "lucide-react";
 import CartNavItem from "./CartNavItem";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Nav = () => {
   return (
@@ -21,12 +22,16 @@ const Nav = () => {
           <div className="hidden sm:block sm:[&>*]:flex w-full sm:[&>*>button]:flex-center">
             <SearchBar />
           </div>
-          <div className="flex gap-5">
-            <NavItem
-              firstText="Hello, Joshua Aideloje"
-              secondText="Account & Lists"
-            />
+          <div className="flex gap-5 [&>*]:cursor-pointer">
+            <div onClick={() => signIn()}>
+              <NavItem
+                firstText="Hello, Joshua Aideloje"
+                secondText="Account & Lists"
+              />
+            </div>
+
             <NavItem firstText="Returns" secondText="& Orders" />
+
             <CartNavItem items={0} />
           </div>
         </div>
