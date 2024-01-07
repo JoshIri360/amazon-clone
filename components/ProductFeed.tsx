@@ -22,7 +22,7 @@ async function ProductFeed() {
 
   return (
     <div>
-      <div className="grid -mt-[40vh] grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 w-full px-2 md:px-5">
+      <div className="grid -mt-[17vh] sm:-mt-[20vh] md:-mt-[40vh] grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-10 w-full px-2 md:px-5">
         {products.map(
           ({
             id,

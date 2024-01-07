@@ -3,7 +3,7 @@ import Image from "next/image";
 import SearchBar from "./SearchBar";
 import NavItem from "./NavItem";
 import CartNavItem from "./CartNavItem";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 const Nav = () => {
   return (
