@@ -10,10 +10,6 @@ if (!clientId || !clientSecret) {
   throw new Error("Google OAuth environment variables are not set.");
 }
 
-console.log(
-  `Google OAuth environment variables are set, they are ${clientId} and ${clientSecret}`
-);
-
 const handler = NextAuth({
   providers: [
     Google({
@@ -21,7 +17,8 @@ const handler = NextAuth({
       clientSecret,
     }),
   ],
-  debug: true,
+  async session({ session }: any) {},
+  async signIn({ profile }: any) {},
 }) as NextAuthOptions;
 
 export { handler as GET, handler as POST };
