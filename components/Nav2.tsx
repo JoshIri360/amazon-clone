@@ -8,7 +8,7 @@ const notRequired = ["Gift Cards", "Sell"];
 const Nav2 = () => {
   return (
     <div className="bg-[#232f3e] flex-center">
-      <div className="flex items-center responsive-width text-white text-sm [&>*]:p-2">
+      <div className="flex items-center responsive-width text-white text-sm gap-4 [&>*]:py-[0.3rem]">
         <div className="flex-center gap-1 cursor-pointer">
           <Menu />
           <p className="font-bold">All</p>

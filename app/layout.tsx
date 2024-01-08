@@ -5,6 +5,8 @@ import Nav from "@/components/Nav";
 import Nav2 from "@/components/Nav2";
 import Provider from "@/components/Provider";
 
+import { getServerSession } from "next-auth";
+
 const montserrat = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -13,11 +15,12 @@ export const metadata: Metadata = {
     "Browse & discover millions of products. Read customer reviews and find best sellers.",
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await getServerSession();
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <Provider>
+        <Provider session={session}>
           <main className="app">
             <Nav />
             <Nav2 />
