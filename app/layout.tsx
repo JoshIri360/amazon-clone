@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Nav from "@/components/Nav";
 import Nav2 from "@/components/Nav2";
+import Provider from "@/components/Provider";
 
 const montserrat = Inter({ subsets: ["latin"] });
 
@@ -16,11 +17,13 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <main className="app">
-          <Nav />
-          <Nav2 />
-          {children}
-        </main>
+        <Provider>
+          <main className="app">
+            <Nav />
+            <Nav2 />
+            {children}
+          </main>
+        </Provider>
       </body>
     </html>
   );
