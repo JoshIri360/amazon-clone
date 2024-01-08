@@ -1,21 +1,18 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
+import GoogleAuthProvider from "next-auth/providers/google";
 
 const handler = NextAuth({
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+    GoogleAuthProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
-  callbacks: {
-    async session({ session }) {
-      return session;
-    },
-    async signIn({ account, profile, user, credentials }) {
-      return true;
-    },
-  },
 });
 
 export { handler as GET, handler as POST };

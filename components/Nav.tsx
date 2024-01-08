@@ -3,6 +3,8 @@ import Image from "next/image";
 import SearchBar from "./SearchBar";
 import NavItem from "./NavItem";
 import CartNavItem from "./CartNavItem";
+import { useEffect, useState } from "react";
+import { BuiltInProviderType } from "next-auth/providers/index";
 import { signIn } from "next-auth/react";
 
 const Nav = () => {
@@ -23,11 +25,15 @@ const Nav = () => {
             <SearchBar />
           </div>
           <div className="flex gap-5 [&>*]:cursor-pointer">
-            <div onClick={() => signIn()}>
+            <div
+              onClick={async () => {
+                await signIn();
+              }}
+            >
               <NavItem
                 firstText="Hello, Joshua Aideloje"
                 secondText="Account & Lists"
-              />
+              />{" "}
             </div>
 
             <NavItem firstText="Returns" secondText="& Orders" />
