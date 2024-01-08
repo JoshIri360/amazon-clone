@@ -22,7 +22,7 @@ const Page = () => {
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return (
-    <div className="flex-center w-screen">
+    <div className="flex-center w-screen py-4 bg-blue-50">
       {/* Left */}
       <div className="w-[min(90%,1300px)]">
         <Image
@@ -31,6 +31,7 @@ const Page = () => {
           width={1020}
           height={400}
         />
+        <h3>Your Shopping Basket</h3>
       </div>
 
       {/* Right */}

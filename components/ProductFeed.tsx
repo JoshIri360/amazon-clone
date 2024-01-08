@@ -1,6 +1,6 @@
 import { getProducts } from "@/app/page";
+import { useStore } from "@/store";
 import { IconStarFilled } from "@tabler/icons-react";
-import { Star } from "lucide-react";
 import Image from "next/image";
 import { Key } from "react";
 
@@ -19,6 +19,7 @@ type productProps = {
 
 async function ProductFeed() {
   const products = await getProducts();
+  const addToBasket = useStore((state) => state.inc);
 
   return (
     <div>
@@ -83,7 +84,20 @@ async function ProductFeed() {
                   </p>
                 </div>
 
-                <button className="bg-gradient-to-t from-yellow-400 to-yellow-200 w-full px-4 py-2 mt-1">
+                <button
+                  onClick={() => {
+                    console.log(id, title, price, description, category, image);
+                    addToBasket({
+                      id,
+                      title,
+                      price,
+                      description,
+                      category,
+                      image,
+                    });
+                  }}
+                  className="bg-gradient-to-t from-yellow-400 to-yellow-200 w-full px-4 py-2 mt-1"
+                >
                   Add to Basket
                 </button>
               </div>

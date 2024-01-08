@@ -27,7 +27,7 @@ const ProductCarousel = () => {
     <div className="sm:w-[95vw] aspect-square md:aspect-auto md:w-auto md:h-[80vh] bg-black relative">
       <Image
         alt="Carousel"
-        src={isSmallScreen ? `/carousel-sm/${src}` : `/carousel/${src}`}
+        src={isSmallScreen ? `/sm/${src}` : `/lg/${src}`}
         fill={true}
         style={{
           width: "100%",
