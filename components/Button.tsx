@@ -1,10 +1,7 @@
 "use client";
-// Import the necessary modules
 import { useCart, useStore } from "@/store";
-import { it } from "node:test";
 import { Key } from "react";
 
-// Define the Button component
 type ButtonProps = {
   id: Key;
   title: string;
