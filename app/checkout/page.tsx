@@ -31,7 +31,6 @@ const Page = () => {
 
   return (
     <div className="flex-center py-4 bg-blue-50">
-      {/* Left */}
       <div className="flex flex-col gap-5 md:flex-row w-[min(95%,1300px)]">
         <div className="md:w-5/6">
           <Image
@@ -50,7 +49,6 @@ const Page = () => {
                     alt="Your cart is empty"
                     width={1080}
                     height={400}
-                    // fill={true}
                     style={{ objectFit: "contain", objectPosition: "center" }}
                   />
                 </div>
@@ -134,7 +132,6 @@ const Page = () => {
                           </div>
 
                           <div className="flex md:flex-center">
-                            {/* Insert dropdown for quantity */}
                             <button
                               onClick={() => increaseQuantity(id)}
                               className="rounded-md bg-yellow-400 border border-yellow-500"
@@ -165,8 +162,6 @@ const Page = () => {
               </div>
             )}
           </div>
-
-          {/* Right */}
         </div>
         <div>
           <div>
