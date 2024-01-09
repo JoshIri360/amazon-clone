@@ -185,7 +185,11 @@ const Page = () => {
               className={`w-full mt-2 p-2 bg-gradient-to-t from-yellow-400 hover:to-yellow-300 to-yellow-200
               ${session ? "" : "opacity-50 cursor-not-allowed"}`}
             >
-              {session ? "Proceed to checkout" : "Sign in to checkout"}
+              {!session
+                ? "Sign in to checkout"
+                : cart.length === 0
+                ? "Your cart is empty"
+                : "Proceed to checkout"}
             </button>
           </div>
         </div>
