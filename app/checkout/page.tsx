@@ -99,58 +99,60 @@ const Page = () => {
                           height={400}
                         />
 
-                        <div className="">
-                          <h3 className="text-base font-bold mb-1 text-ellipsis line-clamp-2">
-                            {title}
-                          </h3>
-                          <div className="flex items-center">
-                            {Array(Math.floor(rating.rate)).fill(
-                              <IconStarFilled
-                                width={20}
-                                className="text-yellow-400 my-2"
-                              />
-                            )}
-                            {Array(5 - Math.floor(rating.rate)).fill(
-                              <IconStarFilled
-                                width={20}
-                                className="text-gray-200 my-2"
-                              />
-                            )}
-                            <p>
-                              <span className="m-0 md:ml-3 text-blue-300 cursor-pointer">
-                                {rating.count}
-                              </span>
+                        <div className="flex flex-col md:flex-row gap-2 md:gap-0">
+                          <div className="flex flex-col">
+                            <h3 className="text-base font-bold mb-1 text-ellipsis line-clamp-2">
+                              {title}
+                            </h3>
+                            <div className="flex items-center">
+                              {Array(Math.floor(rating.rate)).fill(
+                                <IconStarFilled
+                                  width={20}
+                                  className="text-yellow-400 my-2"
+                                />
+                              )}
+                              {Array(5 - Math.floor(rating.rate)).fill(
+                                <IconStarFilled
+                                  width={20}
+                                  className="text-gray-200 my-2"
+                                />
+                              )}
+                              <p>
+                                <span className="m-0 md:ml-3 text-blue-300 cursor-pointer">
+                                  {rating.count}
+                                </span>
+                              </p>
+                            </div>
+                            <p className="text-ellipsis line-clamp-2">
+                              {description}
                             </p>
+                            <p className="font-semibold mt-2">£{price}</p>
                           </div>
-                          <p className="text-ellipsis line-clamp-2">
-                            {description}
-                          </p>
-                          <p className="font-semibold mt-2">£{price}</p>
-                        </div>
 
-                        <div className="flex flex-center">
-                          {/* Insert dropdown for quantity */}
-                          <button
-                            onClick={() => increaseQuantity(id)}
-                            className="rounded-md bg-yellow-400 border border-yellow-500"
-                          >
-                            <Plus size={25} />{" "}
-                          </button>
-                          <div className="mx-1 w-[25px] h-[25px] flex-center border rounded-md">
-                            {quantity}
+                          <div className="flex md:flex-center">
+                            {/* Insert dropdown for quantity */}
+                            <button
+                              onClick={() => increaseQuantity(id)}
+                              className="rounded-md bg-yellow-400 border border-yellow-500"
+                            >
+                              <Plus size={25} />{" "}
+                            </button>
+                            <div className="mx-1 w-[25px] h-[25px] flex-center border rounded-md">
+                              {quantity}
+                            </div>
+                            <button
+                              onClick={() => {
+                                if (quantity === 1) {
+                                  remove(id);
+                                } else {
+                                  decreaseQuantity(id);
+                                }
+                              }}
+                              className="rounded-md bg-yellow-400 border border-yellow-500"
+                            >
+                              <Minus size={25} />
+                            </button>
                           </div>
-                          <button
-                            onClick={() => {
-                              if (quantity === 1) {
-                                remove(id);
-                              } else {
-                                decreaseQuantity(id);
-                              }
-                            }}
-                            className="rounded-md bg-yellow-400 border border-yellow-500"
-                          >
-                            <Minus size={25} />
-                          </button>
                         </div>
                       </div>
                     );
@@ -168,9 +170,11 @@ const Page = () => {
               Subtotal ({cart.length} items):
               <span className="font-bold">
                 £
-                {cart.reduce((acc, curr) => {
-                  return acc + Number(curr.price) * curr.quantity;
-                }, 0)}
+                {cart
+                  .reduce((acc, curr) => {
+                    return acc + Number(curr.price) * curr.quantity;
+                  }, 0)
+                  .toFixed(2)}
               </span>
             </h2>
             <button
