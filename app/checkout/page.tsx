@@ -1,40 +1,172 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useCart } from "@/store";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { IconStarFilled } from "@tabler/icons-react";
+import { Minus, Plus } from "lucide-react";
 
 const Page = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+  const cart = useCart((state) => state.cart);
+  const increaseQuantity = useCart((state) => state.increaseQuantity);
+  const remove = useCart((state) => state.remove);
+  const decreaseQuantity = useCart((state) => state.decreaseQuantity);
+
   useEffect(() => {
-    // Update the state on window resize
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 600);
     };
 
-    // Attach event listener
     window.addEventListener("resize", handleResize);
 
-    // Call the handler right away so state gets updated with initial window size
     handleResize();
 
-    // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, []);
 
   return (
-    <div className="flex-center w-screen py-4 bg-blue-50">
+    <div className="flex-center py-4 bg-blue-50">
       {/* Left */}
-      <div className="w-[min(90%,1300px)]">
-        <Image
-          src={isSmallScreen ? "/sm/cart.jpg" : "/lg/cart.jpg"}
-          alt="Cart"
-          width={1020}
-          height={400}
-        />
-        <h3>Your Shopping Basket</h3>
-      </div>
+      <div className="flex flex-col justify-between md:flex-row w-[min(90%,1300px)]">
+        <div className="md:w-5/6">
+          <Image
+            src={isSmallScreen ? "/sm/cart.jpg" : "/lg/cart.jpg"}
+            alt="Cart"
+            width={2220}
+            height={2}
+          />
 
-      {/* Right */}
+          <div>
+            {cart.length === 0 ? (
+              <div className="flex flex-col sm:flex-row gap-6 items-center p-10 sm:p-4 bg-white mt-4">
+                <div className="relative w-4/5 sm:w-2/6">
+                  <Image
+                    src="/lg/empty-cart.svg"
+                    alt="Your cart is empty"
+                    width={1080}
+                    height={400}
+                    // fill={true}
+                    style={{ objectFit: "contain", objectPosition: "center" }}
+                  />
+                </div>
+                <div className="flex flex-col gap-5">
+                  <div>
+                    <h1 className="text-2xl font-bold">
+                      Your Amazon Cart is empty
+                    </h1>
+                    <Link
+                      href="/"
+                      className="text-blue-800 text-sm text-nowrap hover:underline hover:text-red-600 w-min"
+                    >
+                      Shop today&apos;s deals
+                    </Link>
+                  </div>
+                  <button
+                    onClick={() => signIn()}
+                    className="w-min text-nowrap bg-yellow-400 p-2 py-1 rounded-lg hover:bg-yellow-500"
+                  >
+                    Sign in to your account
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <h1 className="text-3xl font-bold py-4">Shopping Cart</h1>
+                {cart.map(
+                  ({
+                    id,
+                    title,
+                    price,
+                    description,
+                    rating,
+                    image,
+                    quantity,
+                  }) => {
+                    return (
+                      <div
+                        key={id}
+                        className="flex relative justify-between gap-4 p-4 z-20 bg-white transition-all"
+                      >
+                        <Image
+                          src={image}
+                          alt={title}
+                          width={150}
+                          height={400}
+                        />
+
+                        <div className="">
+                          <h3 className="text-base font-bold mb-1 text-ellipsis line-clamp-2">
+                            {title}
+                          </h3>
+                          <div className="flex items-center">
+                            {Array(Math.floor(rating.rate)).fill(
+                              <IconStarFilled
+                                width={20}
+                                className="text-yellow-400 my-2"
+                              />
+                            )}
+                            {Array(5 - Math.floor(rating.rate)).fill(
+                              <IconStarFilled
+                                width={20}
+                                className="text-gray-200 my-2"
+                              />
+                            )}
+                            <p>
+                              <span className="m-0 md:ml-3 text-blue-300 cursor-pointer">
+                                {rating.count}
+                              </span>
+                            </p>
+                          </div>
+                          <p className="text-ellipsis line-clamp-2">
+                            {description}
+                          </p>
+                          <p className="font-semibold mt-2">£{price}</p>
+                        </div>
+
+                        <div className="flex flex-center">
+                          {/* Insert dropdown for quantity */}
+                          <button
+                            onClick={() => increaseQuantity(id)}
+                            className="rounded-md bg-yellow-400 border border-yellow-500"
+                          >
+                            <Plus size={25} />{" "}
+                          </button>
+                          <div className="mx-1 w-[25px] h-[25px] flex-center border rounded-md">
+                            {quantity}
+                          </div>
+                          <button
+                            onClick={() => {
+                              if (quantity === 1) {
+                                remove(id);
+                              } else {
+                                decreaseQuantity(id);
+                              }
+                            }}
+                            className="rounded-md bg-yellow-400 border border-yellow-500"
+                          >
+                            <Minus size={25} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Right */}
+        </div>
+        <div>
+          <div>
+            <h2>Subtotal ({cart.length} items):</h2>
+            <button>Proceed to Checkout</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

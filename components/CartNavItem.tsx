@@ -14,7 +14,7 @@ const CartNavItem = ({ items }: CartNavProps) => {
         </div>
         <ShoppingCart className="text-white" />
       </div>
-      <p className="hidden md:block text-white text-sm font-bold">Basket</p>
+      <p className="hidden md:block text-white text-sm font-bold">Cart</p>
     </div>
   );
 };

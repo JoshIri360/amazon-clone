@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 import { BuiltInProviderType } from "next-auth/providers/index";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useCart } from "@/store";
 
 const Nav = () => {
   const { data: session } = useSession();
-
-  const isLoading = status === "loading";
+  const cart = useCart((state) => state.cart);
 
   return (
     <div className="bg-[#232f3e] sm:bg-[#131921] flex flex-col items-center">
@@ -32,20 +32,16 @@ const Nav = () => {
           <div className="flex gap-5 [&>*]:cursor-pointer">
             <div
               onClick={async () => {
-                if (!session && !isLoading) {
+                if (!session) {
                   await signIn();
-                } else if (!isLoading) {
+                } else {
                   await signOut();
                 }
               }}
             >
               <NavItem
                 firstText={
-                  isLoading
-                    ? "Loading..."
-                    : session
-                    ? `Hello, ${session?.user?.name}`
-                    : `Sign In`
+                  session ? `Hello, ${session?.user?.name}` : `Sign In`
                 }
                 secondText="Account & Lists"
               />
@@ -54,7 +50,7 @@ const Nav = () => {
             <NavItem firstText="Returns" secondText="& Orders" />
 
             <Link href="/checkout">
-              <CartNavItem items={0} />
+              <CartNavItem items={cart.length} />
             </Link>
           </div>
         </div>
