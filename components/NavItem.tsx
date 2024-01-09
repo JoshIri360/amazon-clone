@@ -7,9 +7,9 @@ type NavItemProps = {
 
 const NavItem = ({ firstText, secondText }: NavItemProps) => {
   return (
-    <div className="text-white">
-      <p className="text-xs leading-3 text-nowrap">{firstText}</p>
-      <p className="text-xs font-bold text-nowrap">{secondText}</p>
+    <div className="text-white [&>*]:text-nowrap [&>*]:text-xs">
+      <p className="leading-3">{firstText}</p>
+      <p className="font-bold">{secondText}</p>
     </div>
   );
 };
