@@ -32,7 +32,7 @@ const Page = () => {
   return (
     <div className="flex-center py-4 bg-blue-50">
       {/* Left */}
-      <div className="flex flex-col justify-between md:flex-row w-[min(95%,1300px)]">
+      <div className="flex flex-col gap-5 md:flex-row w-[min(95%,1300px)]">
         <div className="md:w-5/6">
           <Image
             src={isSmallScreen ? "/sm/cart.jpg" : "/lg/cart.jpg"}
