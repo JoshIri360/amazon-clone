@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useCart } from "@/store";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { IconStarFilled } from "@tabler/icons-react";
 import { Minus, Plus } from "lucide-react";
 
 const Page = () => {
+  const { data: session } = useSession();
+
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const cart = useCart((state) => state.cart);
@@ -30,7 +32,7 @@ const Page = () => {
   return (
     <div className="flex-center py-4 bg-blue-50">
       {/* Left */}
-      <div className="flex flex-col justify-between md:flex-row w-[min(90%,1300px)]">
+      <div className="flex flex-col justify-between md:flex-row w-[min(95%,1300px)]">
         <div className="md:w-5/6">
           <Image
             src={isSmallScreen ? "/sm/cart.jpg" : "/lg/cart.jpg"}
@@ -162,8 +164,21 @@ const Page = () => {
         </div>
         <div>
           <div>
-            <h2>Subtotal ({cart.length} items):</h2>
-            <button>Proceed to Checkout</button>
+            <h2 className="text-sm">
+              Subtotal ({cart.length} items):
+              <span className="font-bold">
+                £
+                {cart.reduce((acc, curr) => {
+                  return acc + Number(curr.price) * curr.quantity;
+                }, 0)}
+              </span>
+            </h2>
+            <button
+              className={`w-full mt-2 p-2 bg-gradient-to-t from-yellow-400 hover:to-yellow-300 to-yellow-200
+              ${session ? "" : "opacity-50 cursor-not-allowed"}`}
+            >
+              {session ? "Proceed to checkout" : "Sign in to checkout"}
+            </button>
           </div>
         </div>
       </div>
