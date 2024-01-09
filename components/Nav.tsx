@@ -3,8 +3,6 @@ import Image from "next/image";
 import SearchBar from "./SearchBar";
 import NavItem from "./NavItem";
 import CartNavItem from "./CartNavItem";
-import { useEffect, useState } from "react";
-import { BuiltInProviderType } from "next-auth/providers/index";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useCart } from "@/store";
