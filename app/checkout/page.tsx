@@ -66,12 +66,16 @@ const Page = () => {
                       Shop today&apos;s deals
                     </Link>
                   </div>
-                  <button
-                    onClick={() => signIn()}
-                    className="w-min text-nowrap bg-yellow-400 p-2 py-1 rounded-lg hover:bg-yellow-500"
-                  >
-                    Sign in to your account
-                  </button>
+                  {!session ? (
+                    <button
+                      onClick={() => signIn()}
+                      className="w-min text-nowrap bg-yellow-400 p-2 py-1 rounded-lg hover:bg-yellow-500"
+                    >
+                      Sign in to your account
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             ) : (
