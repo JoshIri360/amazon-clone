@@ -12,6 +12,7 @@
     "@stripe/stripe-js": "^2.3.0",
     "@tabler/icons-react": "^2.45.0",
     "axios": "^1.6.5",
+    "express": "^4.18.2",
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "lucide-react": "^0.303.0",
