@@ -5,20 +5,22 @@ export const POST = async (req: Request, res: Response) => {
   try {
     const { cart, email } = await req.json();
 
-    const transformedItems = cart.map((item: any) => {
-      return {
-        description: item.description,
-        quantity: item.quantity,
-        price_data: {
-          currency: "gbp",
-          unit_amount: item.price * 100,
-          product_data: {
-            name: item.title,
-            images: [item.image],
+    const transformedItems = await Promise.all(
+      cart.map(async (item: any) => {
+        return {
+          description: item.description,
+          quantity: item.quantity,
+          price_data: {
+            currency: "gbp",
+            unit_amount: item.price * 100,
+            product_data: {
+              name: item.title,
+              images: [item.image],
+            },
           },
-        },
-      };
-    });
+        };
+      })
+    );
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
