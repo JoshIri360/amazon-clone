@@ -4,22 +4,22 @@ import Image from "next/image";
 import { useCart } from "@/store";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
-import { IconStarFilled } from "@tabler/icons-react";
+import { IconLoader2, IconStarFilled } from "@tabler/icons-react";
 import { Minus, Plus } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const publicKey = process.env.stripe_public_key;
-
 if (!publicKey) {
   throw new Error("Missing Stripe public key");
 }
-
 const stripePromise = loadStripe(publicKey);
 
 const Page = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
+  const router = useRouter();
 
   const createCheckoutSession = async () => {
     if (!session) {
@@ -31,13 +31,15 @@ const Page = () => {
       return;
     }
 
-    const { checkoutURL } = await axios.post("/api/create-checkout-session", {
+    setIsLoading(true);
+    const { data } = await axios.post("/api/create-checkout-session", {
       cart,
       email: session?.user?.email,
     });
+    setIsLoading(false);
 
-    //Redirect to checkout url
-    redirect(checkoutURL);
+    const checkoutURL = data.url;
+    router.push(checkoutURL);
   };
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -209,15 +211,39 @@ const Page = () => {
             <button
               onClick={createCheckoutSession}
               className={`w-full mt-2 p-2 bg-gradient-to-t from-yellow-400 hover:to-yellow-300 to-yellow-200
-              ${session ? "" : "opacity-50 cursor-not-allowed"}${
-                cart.length ? "" : "opacity-50 cursor-not-allowed"
-              }`}
+  ${!session || !cart.length ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              {!session
-                ? "Sign in to checkout"
-                : cart.length === 0
-                ? "Your cart is empty"
-                : "Proceed to checkout"}
+              {isLoading ? (
+                <div className="flex gap-2">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-black"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Processing...
+                </div>
+              ) : !session ? (
+                "Sign in to checkout"
+              ) : !cart.length ? (
+                "Your cart is empty"
+              ) : (
+                "Proceed to checkout"
+              )}
             </button>
           </div>
         </div>

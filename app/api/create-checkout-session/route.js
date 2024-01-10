@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
+import { redirect } from "next/navigation";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export const POST = async (req) => {
@@ -28,17 +29,18 @@ export const POST = async (req) => {
       cancel_url: `${process.env.HOST}/checkout`,
     });
 
-    const session_url = JSON.stringify({
-      sessionUrl: session.url,
-    });
-
-    return NextResponse.json(session_url, {
+    return NextResponse.json(session, {
       status: 200,
       headers: {
         "Content-Type": "application/json",
       },
     });
   } catch (error) {
-    res.status(500).send(error.message);
+    return NextResponse.json(error, {
+      status: 404,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 };
