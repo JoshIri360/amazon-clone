@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
     <main
-      className={`${inter.className} flex min-h-screen flex-col items-center justify-between bg-blue-50`}
+      className={`${inter.className} flex w-full min-h-screen flex-col items-center justify-between`}
     >
       <div className="responsive-width z-10 px-3 items-center justify-between flex-col text-sm lg:flex">
         <div className="w-full">
@@ -22,7 +22,7 @@ export default function Home() {
 
 export const getProducts = async () => {
   const products = await fetch(
-    "https://fakestoreapi.com/products?limit=4"
+    "https://fakestoreapi.com/products"
   ).then((res) => res.json());
 
   return products;

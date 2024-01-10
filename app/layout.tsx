@@ -19,7 +19,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession();
   return (
     <html lang="en">
-      <body className={montserrat.className}>
+      <body className={`h-screen bg-blue-50 ${montserrat.className}`}>
         <Provider session={session}>
           <main className="app">
             <Nav />

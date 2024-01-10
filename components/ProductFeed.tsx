@@ -38,7 +38,11 @@ async function ProductFeed() {
             return (
               <div
                 key={id}
-                className="flex flex-col relative justify-between gap-4 p-4 z-20 bg-white transition-all cursor-pointer"
+                className={`${
+                  title.includes("John") || title.includes("SanDisk")
+                    ? `col-span-2`
+                    : ``
+                } flex flex-col relative justify-between gap-4 p-4 z-20 bg-white transition-all cursor-pointer`}
               >
                 <div>
                   <div className="w-full min-h-64 h-fit flex-center">

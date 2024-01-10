@@ -30,7 +30,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="flex-center py-4 bg-blue-50">
+    <div className="flex-center py-4">
       <div className="flex flex-col gap-5 md:flex-row w-[min(95%,1300px)]">
         <div className="md:w-5/6">
           <Image
