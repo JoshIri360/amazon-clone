@@ -1,26 +1,23 @@
-import { Request, Response } from "express";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req, res) => {
   try {
     const { cart, email } = await req.json();
 
-    const transformedItems = await Promise.all(
-      cart.map(async (item: any) => {
-        return {
-          description: item.description,
-          quantity: item.quantity,
-          price_data: {
-            currency: "gbp",
-            unit_amount: item.price * 100,
-            product_data: {
-              name: item.title,
-              images: [item.image],
-            },
+    const transformedItems = cart.map((item) => {
+      return {
+        quantity: item.quantity,
+        price_data: {
+          currency: "gbp",
+          unit_amount: item.price * 100,
+          product_data: {
+            name: item.title,
+            description: item.description,
+            images: [item.image],
           },
-        };
-      })
-    );
+        },
+      };
+    });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -30,11 +27,8 @@ export const POST = async (req: Request, res: Response) => {
       cancel_url: `${process.env.HOST}/checkout`,
     });
 
-    return new Response(JSON.stringify({ id: session.id }), {
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    console.log(error);
-    return new Response(error.message, { status: 500 });
+    res.status(201).json({ id: session.id });
+  } catch (error: any) {
+    res.status(500).send(error.message);
   }
 };
