@@ -23,7 +23,7 @@ if (
 }
 
 export const config = {
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GithubProvider({
       clientId: githubClientId,
