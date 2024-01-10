@@ -6,9 +6,37 @@ import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { IconStarFilled } from "@tabler/icons-react";
 import { Minus, Plus } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+
+const publicKey = process.env.stripe_public_key;
+
+if (!publicKey) {
+  throw new Error("Missing Stripe public key");
+}
+
+const stripePromise = loadStripe(publicKey);
 
 const Page = () => {
   const { data: session } = useSession();
+
+  const createCheckoutSession = async () => {
+    if (!session) {
+      signIn();
+      return;
+    }
+
+    if (cart.length === 0) {
+      return;
+    }
+
+    const stripe = await stripePromise;
+
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      cart,
+      email: session?.user?.email,
+    });
+  };
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -177,8 +205,11 @@ const Page = () => {
               </span>
             </h2>
             <button
+              onClick={createCheckoutSession}
               className={`w-full mt-2 p-2 bg-gradient-to-t from-yellow-400 hover:to-yellow-300 to-yellow-200
-              ${session ? "" : "opacity-50 cursor-not-allowed"}`}
+              ${session ? "" : "opacity-50 cursor-not-allowed"}${
+                cart.length ? "" : "opacity-50 cursor-not-allowed"
+              }`}
             >
               {!session
                 ? "Sign in to checkout"
