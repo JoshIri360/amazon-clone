@@ -8,6 +8,7 @@ import { IconStarFilled } from "@tabler/icons-react";
 import { Minus, Plus } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 const publicKey = process.env.stripe_public_key;
 
@@ -30,12 +31,13 @@ const Page = () => {
       return;
     }
 
-    const stripe = await stripePromise;
-
-    const checkoutSession = await axios.post("/api/create-checkout-session", {
+    const { checkoutURL } = await axios.post("/api/create-checkout-session", {
       cart,
       email: session?.user?.email,
     });
+
+    //Redirect to checkout url
+    redirect(checkoutURL);
   };
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);

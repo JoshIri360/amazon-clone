@@ -1,30 +1,11 @@
-import { Request, Response } from "express";
-
+import { NextResponse, NextRequest } from "next/server";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-type Item = {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  price: number;
-  quantity: number;
-};
-
-// Include 'json' property on the request object
-declare global {
-  namespace Express {
-    interface Request {
-      json: any;
-    }
-  }
-}
-
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req) => {
   try {
     const { cart, email } = await req.json();
 
-    const transformedItems = cart.map((item: Item) => {
+    const transformedItems = cart.map((item) => {
       return {
         quantity: item.quantity,
         price_data: {
@@ -47,8 +28,17 @@ export const POST = async (req: Request, res: Response) => {
       cancel_url: `${process.env.HOST}/checkout`,
     });
 
-    res.status(201).json({ id: session.id });
-  } catch (error: any) {
+    const session_url = JSON.stringify({
+      sessionUrl: session.url,
+    });
+
+    return NextResponse.json(session_url, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
     res.status(500).send(error.message);
   }
 };
