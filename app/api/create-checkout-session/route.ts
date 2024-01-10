@@ -1,10 +1,30 @@
+import { Request, Response } from "express";
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-export const POST = async (req, res) => {
+type Item = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  quantity: number;
+};
+
+// Include 'json' property on the request object
+declare global {
+  namespace Express {
+    interface Request {
+      json: any;
+    }
+  }
+}
+
+export const POST = async (req: Request, res: Response) => {
   try {
     const { cart, email } = await req.json();
 
-    const transformedItems = cart.map((item) => {
+    const transformedItems = cart.map((item: Item) => {
       return {
         quantity: item.quantity,
         price_data: {
