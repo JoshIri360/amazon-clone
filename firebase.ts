@@ -13,7 +13,7 @@ type FirebaseConfig = {
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig: FirebaseConfig = {
-  apiKey: "AIzaSyAcyZOuj4qSYKVaBytGKXgHpphcbLCH01L0",
+  apiKey: process.env.FIREBASE_API_KEY!,
   authDomain: "clone-6ce19.firebaseapp.com",
   projectId: "clone-6ce19",
   storageBucket: "clone-6ce19.appspot.com",

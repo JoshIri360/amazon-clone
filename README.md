@@ -1,65 +1,68 @@
-# Amazon Clone - Next.js
+# Amazon Clone with Next.js
 
-This project is an Amazon clone built with [Next.js](https://nextjs.org/), a popular React framework for building web applications. The project is based on the tutorial by Sonny Sangha on his YouTube channel.
-
-## Features
-
-This Amazon clone includes several key features:
-
-- User authentication with NextAuth, including log in and log out functionality.
-- Add to basket functionality, similar to Amazon's shopping cart.
-- A basket page where users can add or remove products and change their quantities.
-- A complete Stripe Payments checkout flow for processing orders.
-- A Cloud Firestore database for storing order details.
-- A beautiful, responsive design built with Tailwind CSS.
-- Deployment on Vercel.
-
-## Getting Started
-
-To get started with this project, follow these steps:
-
-1. Clone the repository to your local machine.
-2. Install the dependencies with `npm install`.
-3. Start the development server with `npm run dev`.
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The page auto-updates as you edit the file.
-
-## Contributing
-
-Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) for more information.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.# Amazon Clone - Next.js
-
-This project is an Amazon clone built with [Next.js](https://nextjs.org/), a popular React framework for building web applications. The project is based on the tutorial by Sonny Sangha on his YouTube channel.
+Welcome to the Amazon Clone project! This is a web application built using Next.js, designed to replicate the functionality of the Amazon platform. The project incorporates the Stripe API for payment processing, Zustand for state management, and utilizes the FakeStore API to fetch product data. Next Auth has been implemented for user authentication.
 
 ## Features
 
-This Amazon clone includes several key features:
+- **Amazon-like Interface**: The project provides a user-friendly interface inspired by the Amazon website, ensuring a familiar and intuitive user experience.
 
-- User authentication with NextAuth, including log in and log out functionality.
-- Add to basket functionality, similar to Amazon's shopping cart.
-- A basket page where users can add or remove products and change their quantities.
-- A complete Stripe Payments checkout flow for processing orders.
-- A Cloud Firestore database for storing order details.
-- A beautiful, responsive design built with Tailwind CSS.
-- Deployment on Vercel.
+- **Stripe Integration**: Securely process payments using the Stripe API. Users can seamlessly make purchases with confidence.
+
+- **Zustand State Management**: Zustand is employed to manage the application's state, ensuring efficient and scalable state management.
+
+- **FakeStore API Integration**: Fetch realistic product data from the FakeStore API to simulate a real e-commerce environment with diverse products.
+
+- **Next Auth for Authentication**: User authentication is implemented using Next Auth, providing a secure and streamlined authentication process.
 
 ## Getting Started
 
-To get started with this project, follow these steps:
+### Prerequisites
 
-1. Clone the repository to your local machine.
-2. Install the dependencies with `npm install`.
-3. Start the development server with `npm run dev`.
+Make sure you have Node.js and npm installed on your machine.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. The page auto-updates as you edit the file.
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/JoshIri360/amazon-clone
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd amazon-clone
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+### Configuration
+
+1. Create a copy of `.env.example` and save as `.env.local` file in the root of the project and fill accordingly.
+
+2. 
+
+### Run the Application
+
+```bash
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) in your browser to see the Amazon Clone in action.
 
 ## Contributing
 
-Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) for more information.
+Contributions are welcome! Feel free to open issues, submit pull requests, or suggest improvements. Please follow the [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for more details.
+This project is licensed under the [MIT License](LICENSE.md).
+
+## Acknowledgments
+
+- The project makes use of the FakeStore API (link to the FakeStore API documentation).
+- Thanks to the creators of Next.js, Stripe, Zustand, and Next Auth for their fantastic tools and libraries.

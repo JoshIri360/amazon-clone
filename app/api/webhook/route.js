@@ -6,6 +6,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const serviceAccount = require("../../../permissions.json");
 
+console.log("serviceAccount", serviceAccount);
+
 const _app = !admin.apps.length
   ? admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
