@@ -64,10 +64,20 @@ export const POST = async (req, res) => {
     // Fulfill the order
     return fulfillOrder(session)
       .then(() => {
-        res.status(200);
+        return NextResponse.json(session, {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       })
       .catch((error) => {
-        res.status(400).send(`Webhook Error: ${error.message}`);
+        return NextResponse.json(`Webhook error: ${error.message}`, {
+          status: 404,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       });
   }
 
