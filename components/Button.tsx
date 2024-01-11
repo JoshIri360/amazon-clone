@@ -1,5 +1,6 @@
 "use client";
-import { useCart, useStore } from "@/store";
+import { useCart } from "@/store";
+import { useSession } from "next-auth/react";
 import { Key } from "react";
 
 type ButtonProps = {
@@ -24,11 +25,32 @@ const Button: React.FC<ButtonProps> = ({
   image,
   rating,
 }) => {
+  const { data: session } = useSession();
   const addToCart = useCart((state) => state.add);
   const cart = useCart((state) => state.cart);
   const increaseQuantity = useCart((state) => state.increaseQuantity);
 
   const handleClick = () => {
+    if (!session) {
+      // Add to local storage
+      localStorage.setItem(
+        "cart",
+        JSON.stringify([
+          ...cart,
+          {
+            id,
+            title,
+            price,
+            description,
+            category,
+            image,
+            rating,
+            quantity: 1,
+          },
+        ])
+      );
+      return;
+    }
     if (cart.some((item) => item.id === id)) {
       increaseQuantity(id);
       return;

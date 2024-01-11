@@ -1,5 +1,6 @@
 import { buffer } from "micro";
 import { apps, initializeApp, credential, app } from "firebase-admin";
+import { timeStamp } from "console";
 
 const serviceAccount = require("../../../permissions.json");
 
@@ -12,6 +13,29 @@ const _app = !apps.length
 // Establish connection to stripe
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
+
+const fulfillOrder = async (session) => {
+  console.log("Fulfilling order", session);
+  return _app
+    .firestore()
+    .collection("users")
+    .doc(session.metadata.email)
+    .collection("orders")
+    .doc(session.id)
+    .set({
+      name: session.metadata.name,
+      total: session.amount_total / 100,
+      items: session.metadata.items,
+      images: JSON.parse(session.metadata.images),
+      timeStamp: timeStamp,
+    })
+    .then(() => {
+      console.log(`SUCCESS: Order ${session.id} had been added to the DB`);
+    })
+    .catch((err) => {
+      console.log(`ERROR: ${err}`);
+    });
+};
 
 export const POST = async (req, res) => {
   const buf = await buffer(req);
