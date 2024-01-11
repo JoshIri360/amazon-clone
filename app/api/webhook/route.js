@@ -1,14 +1,14 @@
 import { buffer } from "micro";
-import { apps, initializeApp, credential, app } from "firebase-admin";
+import admin from "firebase-admin";
 import { timeStamp } from "console";
 
 const serviceAccount = require("../../../permissions.json");
 
-const _app = !apps.length
-  ? initializeApp({
-      credential: credential.cert(serviceAccount),
+const _app = !admin.apps.length
+  ? admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
     })
-  : app;
+  : admin.app();
 
 // Establish connection to stripe
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
@@ -38,6 +38,7 @@ const fulfillOrder = async (session) => {
 };
 
 export const POST = async (req, res) => {
+  console.log("Webhook called");
   const buf = await buffer(req);
   const payload = buf.toString();
   const sig = req.headers["stripe-signature"];
@@ -46,7 +47,9 @@ export const POST = async (req, res) => {
 
   // Verify that the EVENT posted came from stripe
   try {
+    console.log("VERIFYING EVENT");
     event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+    console.log("EVENT VERIFIED");
   } catch (error) {
     console.log("ERROR", error.message);
     return NextResponse.json(`Webhook error: ${error.message}`, {
@@ -60,6 +63,7 @@ export const POST = async (req, res) => {
   // Handle the checkout.session.completed event
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+    console.log("SESSION", session);
 
     // Fulfill the order
     return fulfillOrder(session)
@@ -82,4 +86,11 @@ export const POST = async (req, res) => {
   }
 
   const session = event.data.object;
+};
+
+export const config = {
+  api: {
+    bodyParser: false,
+    externalResolver: true,
+  },
 };
