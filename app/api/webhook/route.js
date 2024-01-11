@@ -12,6 +12,8 @@ const _app = !admin.apps.length
     })
   : admin.app();
 
+// const db = _app.firestore();
+
 const fulfillOrder = async (session) => {
   console.log("Fulfilling order", session);
   const line_items = await stripe.checkout.sessions.listLineItems(
@@ -21,21 +23,16 @@ const fulfillOrder = async (session) => {
     }
   );
 
-  console.log("LINE ITEMS", line_items);
   const userEmail = session.object.customer_details.email;
-  console.log("USER EMAIL", userEmail);
+
   try {
     const userDoc = doc(db, "users", userEmail);
-    console.log("USER DOC", userDoc);
-
     await setDoc(userDoc, {
       id: session.object.id,
       email: userEmail,
     });
 
     const userDocRef = collection(userDoc, "orders");
-    console.log("USER DOC REF", userDocRef);
-
     for (const item of line_items.data) {
       await addDoc(userDocRef, {
         id: item.id,
@@ -44,7 +41,6 @@ const fulfillOrder = async (session) => {
         quantity: item.quantity,
       });
     }
-    console.log("SUCCESS");
 
     return userDocRef;
   } catch (error) {
