@@ -1,4 +1,5 @@
-import firebase from "firebase"
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 type FirebaseConfig = {
   apiKey: string;
@@ -12,11 +13,19 @@ type FirebaseConfig = {
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig: FirebaseConfig = {
-  apiKey: "AIzaSyAXFzy2aQALnzA59ei7ZN9VAWumS9U8omA",
-  authDomain: "clone-409105.firebaseapp.com",
-  projectId: "amazon-clone-409105",
-  storageBucket: "amazon-clone-409105.appspot.com",
-  messagingSenderId: "336727715419",
-  appId: "1:336727715419:web:7b817f24fed8e6028c997e",
-  measurementId: "G-700RZGMYV6",
+  apiKey: "AIzaSyAcyZOuj4qSYKVaBytGKXgHpphcbLCH01L0",
+  authDomain: "clone-6ce19.firebaseapp.com",
+  projectId: "clone-6ce19",
+  storageBucket: "clone-6ce19.appspot.com",
+  messagingSenderId: "689573512188",
+  appId: "1:689573512188:web:690fc323b1d67bfab96879",
+  measurementId: "G-P6J8CE4E8L",
 };
+
+const app = !firebase.apps.length
+  ? firebase.initializeApp(firebaseConfig)
+  : firebase.app();
+
+export const db = app.firestore();
+
+export default db;

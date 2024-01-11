@@ -1,6 +1,7 @@
-import { buffer } from "micro";
+import { NextResponse, NextRequest } from "next/server";
 import admin from "firebase-admin";
-import { timeStamp } from "console";
+import { db } from "../../../firebase";
+import { addDoc, collection } from "firebase/firestore";
 
 const serviceAccount = require("../../../permissions.json");
 
@@ -10,46 +11,29 @@ const _app = !admin.apps.length
     })
   : admin.app();
 
-// Establish connection to stripe
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_SIGNING_SECRET;
-
 const fulfillOrder = async (session) => {
   console.log("Fulfilling order", session);
-  return _app
-    .firestore()
-    .collection("users")
-    .doc(session.metadata.email)
-    .collection("orders")
-    .doc(session.id)
-    .set({
-      name: session.metadata.name,
-      total: session.amount_total / 100,
-      items: session.metadata.items,
-      images: JSON.parse(session.metadata.images),
-      timeStamp: timeStamp,
+
+  const docRef = await addDoc(collection(db, "users"), {
+    id: session.id,
+    email: session.customer_details.email,
+  })
+    .then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
     })
-    .then(() => {
-      console.log(`SUCCESS: Order ${session.id} had been added to the DB`);
-    })
-    .catch((err) => {
-      console.log(`ERROR: ${err}`);
+    .catch((error) => {
+      console.error("Error adding document: ", error);
     });
+
+  return docRef;
 };
 
 export const POST = async (req, res) => {
-  console.log("Webhook called");
-  const buf = await buffer(req);
-  const payload = buf.toString();
-  const sig = req.headers["stripe-signature"];
-
   let event;
 
   // Verify that the EVENT posted came from stripe
   try {
-    console.log("VERIFYING EVENT");
-    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-    console.log("EVENT VERIFIED");
+    event = await req.json();
   } catch (error) {
     console.log("ERROR", error.message);
     return NextResponse.json(`Webhook error: ${error.message}`, {
@@ -62,7 +46,7 @@ export const POST = async (req, res) => {
 
   // Handle the checkout.session.completed event
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
+    const session = event.data;
     console.log("SESSION", session);
 
     // Fulfill the order
@@ -84,13 +68,4 @@ export const POST = async (req, res) => {
         });
       });
   }
-
-  const session = event.data.object;
-};
-
-export const config = {
-  api: {
-    bodyParser: false,
-    externalResolver: true,
-  },
 };
