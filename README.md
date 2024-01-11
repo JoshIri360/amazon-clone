@@ -44,8 +44,6 @@ Make sure you have Node.js and npm installed on your machine.
 
 1. Create a copy of `.env.example` and save as `.env.local` file in the root of the project and fill accordingly.
 
-2. 
-
 ### Run the Application
 
 ```bash
