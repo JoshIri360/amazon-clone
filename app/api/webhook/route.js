@@ -6,18 +6,13 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const serviceAccount = require("../../../permissions.json");
 
-console.log("serviceAccount", serviceAccount);
-
 const _app = !admin.apps.length
   ? admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     })
   : admin.app();
 
-// const db = _app.firestore();
-
 const fulfillOrder = async (session) => {
-  console.log("Fulfilling order", session);
   const line_items = await stripe.checkout.sessions.listLineItems(
     session.object.id,
     {
@@ -35,8 +30,13 @@ const fulfillOrder = async (session) => {
     });
 
     const userDocRef = collection(userDoc, "orders");
+    const items = [];
+    let total = 0;
+
     for (const item of line_items.data) {
-      await addDoc(userDocRef, {
+      total += (item.amount_total / 100) * item.quantity;
+
+      total = items.push({
         id: item.id,
         amount: item.amount_total / 100,
         description: item.description,
@@ -44,7 +44,14 @@ const fulfillOrder = async (session) => {
       });
     }
 
-    return userDocRef;
+    await addDoc(userDocRef, { items, total });
+
+    return NextResponse.json(userDocRef, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   } catch (error) {
     console.error("Error processing order: ", error);
     throw error; // re-throw the error so it can be handled by the caller
@@ -70,8 +77,7 @@ export const POST = async (req, res) => {
   // Handle the checkout.session.completed event
   if (event.type === "checkout.session.completed") {
     const session = event.data;
-    console.log("SESSION", session);
-    const lineItems = await stripe;
+
     // Fulfill the order
     return fulfillOrder(session)
       .then(() => {
