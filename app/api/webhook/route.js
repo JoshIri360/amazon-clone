@@ -20,6 +20,8 @@ const fulfillOrder = async (session) => {
     }
   );
 
+  console.log(line_items);
+
   const userEmail = session.object.customer_details.email;
 
   try {
@@ -34,24 +36,26 @@ const fulfillOrder = async (session) => {
     let total = 0;
 
     for (const item of line_items.data) {
-      total += (item.amount_total / 100) * item.quantity;
+      const productID = item.price.product;
+      const product = await stripe.products.retrieve(productID);
+      let productImages = [];
+      if (product.images.length > 0) {
+        productImages = product.images;
+      }
+      total += item.amount_total / 100;
 
-      total = items.push({
+      items.push({
         id: item.id,
-        amount: item.amount_total / 100,
+        amount_total: item.amount_total / 100,
         description: item.description,
         quantity: item.quantity,
+        images: productImages,
       });
     }
 
-    await addDoc(userDocRef, { items, total });
+    const NewOrderDoc = await addDoc(userDocRef, { items, total });
 
-    return NextResponse.json(userDocRef, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return NewOrderDoc;
   } catch (error) {
     console.error("Error processing order: ", error);
     throw error; // re-throw the error so it can be handled by the caller
