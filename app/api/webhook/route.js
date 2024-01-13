@@ -2,17 +2,12 @@ import { NextResponse, NextRequest } from "next/server";
 import admin from "firebase-admin";
 import { db } from "../../../firebase";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { time, timeStamp } from "console";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const serviceAccount = require("../../../permissions.json");
 
-const _app = !admin.apps.length
-  ? admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-    })
-  : admin.app();
-
-const fulfillOrder = async (session) => {
+const fulfillOrder = async (session, timeCreated) => {
   const line_items = await stripe.checkout.sessions.listLineItems(
     session.object.id,
     {
@@ -51,7 +46,11 @@ const fulfillOrder = async (session) => {
       });
     }
 
-    const NewOrderDoc = await addDoc(userDocRef, { items, total });
+    const NewOrderDoc = await addDoc(userDocRef, {
+      items,
+      total,
+      timeStamp: timeCreated,
+    });
 
     return NewOrderDoc.id;
   } catch (error) {
@@ -81,7 +80,7 @@ export const POST = async (req, res) => {
     const session = event.data;
 
     // Fulfill the order
-    return fulfillOrder(session)
+    return fulfillOrder(session, event.created)
       .then((id) => {
         return NextResponse.json(
           { session, id },

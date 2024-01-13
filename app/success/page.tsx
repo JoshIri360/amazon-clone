@@ -1,7 +1,11 @@
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Success = () => {
+  const router = useRouter();
+
   return (
     <div className="w-full h-[80vh] flex-center">
       <div className="rounded-md overflow-hidden bg-[#131921] h-[52vh] flex gap-4 items-center flex-col">
@@ -24,9 +28,14 @@ const Success = () => {
           />
         </div>
         <div>
-            <button className="rounded-md font-bold py-2 px-4 bg-[#F3A847]">
-                CHECK STATUS
-            </button>
+          <button
+            className="rounded-md font-bold py-2 px-4 bg-[#F3A847]"
+            onClick={() => {
+              router.push("/orders");
+            }}
+          >
+            VIEW ORDERS
+          </button>
         </div>
       </div>
     </div>
