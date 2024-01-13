@@ -20,8 +20,6 @@ const fulfillOrder = async (session) => {
     }
   );
 
-  console.log(line_items);
-
   const userEmail = session.object.customer_details.email;
 
   try {
@@ -55,7 +53,7 @@ const fulfillOrder = async (session) => {
 
     const NewOrderDoc = await addDoc(userDocRef, { items, total });
 
-    return NewOrderDoc;
+    return NewOrderDoc.id;
   } catch (error) {
     console.error("Error processing order: ", error);
     throw error; // re-throw the error so it can be handled by the caller
@@ -84,13 +82,16 @@ export const POST = async (req, res) => {
 
     // Fulfill the order
     return fulfillOrder(session)
-      .then(() => {
-        return NextResponse.json(session, {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      .then((id) => {
+        return NextResponse.json(
+          { session, id },
+          {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
       })
       .catch((error) => {
         return NextResponse.json(`Webhook error: ${error.message}`, {
