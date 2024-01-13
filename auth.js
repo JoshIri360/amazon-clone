@@ -1,11 +1,5 @@
 import GithubProvider from "next-auth/providers/github";
 import GoogleAuthProvider from "next-auth/providers/google";
-import type {
-  GetServerSidePropsContext,
-  NextApiRequest,
-  NextApiResponse,
-} from "next";
-import type { NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
 
 const githubClientId = process.env.GITHUB_ID;
@@ -34,14 +28,9 @@ export const config = {
       clientSecret: googleClientSecret,
     }),
   ],
-} satisfies NextAuthOptions;
+};
 
 // Use it in server contexts
-export function auth(
-  ...args:
-    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
-    | [NextApiRequest, NextApiResponse]
-    | []
-) {
+export function auth(...args) {
   return getServerSession(...args, config);
 }
