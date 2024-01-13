@@ -93,8 +93,10 @@ const Orders = () => {
   );
 };
 
+interface Orders extends Array<Order> {}
+
 const getOrders = async (session: any) => {
-  const orders = [];
+  const orders: Orders = [];
 
   const q = query(collection(db, "users", session?.user?.email, "orders"));
   const querySnapshot = await getDocs(q);
@@ -107,6 +109,8 @@ const getOrders = async (session: any) => {
       ...doc.data(),
       timestamp: dateString,
       id: doc.id,
+      total: doc.data().total,
+      items: doc.data().items,
     });
   });
 
