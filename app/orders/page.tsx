@@ -35,47 +35,53 @@ const Orders = () => {
   return (
     <div className="flex-center">
       <div className="responsive-width py-5">
-        <h1 className="text-4xl font-bold pb-2 border-b-2 border-red-300">
+        <h1 className="text-4xl font-bold pb-2 border-b-2 border-[#f3a847]">
           Orders
         </h1>
         {session ? (
-          <div>
-            <h2 className="text-2xl font-semibold">
-              {session?.user?.name}&apos;s Orders
-            </h2>
-            <div className="flex flex-col flex-center">
-              {orders.map((order: Order) => {
-                return (
-                  <div key={order.id} className="w-[min(95%,850px)]">
-                    <div className="grid grid-cols-3">
-                      <p>Order Date</p>
-                      <p>Order #</p>
-                      <p>Total</p>
-                      <p>{order.timestamp}</p>
-                      <p>{order.id}</p>
-                      <p>{order.total.toFixed(2)}</p>
-                    </div>
-                    <div>
-                      {order.items.map((item: Item) => {
-                        return (
-                          <div key={item.description}>
-                            <h2>{item.description}</h2>
-                            <p>£{item.amount_total}</p>
-                            <p>{item.quantity}</p>
+          <div className="mt-5 flex flex-col flex-center gap-8">
+            {orders.map((order: Order) => {
+              return (
+                <div
+                  key={order.id}
+                  className="w-[min(95%,850px)] rounded-xl overflow-hidden"
+                >
+                  <div className="grid grid-cols-3 bg-[#232f3e] text-white p-3">
+                    <p className="font-bold">Order Date</p>
+                    <p className="font-bold">Order #</p>
+                    <p className="font-bold text-right">Total</p>
+                    <p>{order.timestamp}</p>
+                    <p>{order.id}</p>
+                    <p className="text-right">£ {order.total.toFixed(2)}</p>
+                  </div>
+                  <div className="flex bg-white p-4 gap-5">
+                    {order.items.map((item: Item) => {
+                      return (
+                        <div key={item.description} className="relative">
+                          <p className="absolute right-3 bottom-3 p-2 py-1 rounded-md bg-slate-200 bg-opacity-85">
+                            {item.quantity}
+                          </p>
+                          <div className="w-44 h-48 flex-center">
                             <Image
                               src={item.images[0]}
                               alt={item.description}
-                              width={150}
-                              height={150}
+                              width={0}
+                              height={0}
+                              sizes="_"
+                              style={{
+                                width: "7rem",
+                                height: "auto",
+                                maxHeight: "15rem",
+                              }}
                             />
                           </div>
-                        );
-                      })}
-                    </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <h2 className="text-2xl font-semibold">
